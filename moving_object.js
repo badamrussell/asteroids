@@ -14,25 +14,25 @@
     this.pos[1] += this.vel[1];
   }
 
-  MovingObject.prototype.draw = function(ctx) {
-    //ctx.fillStyle = this.color;
-    ctx.beginPath();
+  // MovingObject.prototype.draw = function(ctx) {
+  //   //ctx.fillStyle = this.color;
+  //   ctx.beginPath();
 
-    ctx.arc(
-      this.pos[0],
-      this.pos[1],
-      this.radius,
-      0,
-      Math.PI * 2,
-      false
-    );
+  //   ctx.arc(
+  //     this.pos[0],
+  //     this.pos[1],
+  //     this.radius,
+  //     0,
+  //     Math.PI * 2,
+  //     false
+  //   );
 
-    ctx.lineWidth = 4;
-    ctx.strokeStyle=this.color;
+  //   ctx.lineWidth = 4;
+  //   ctx.strokeStyle=this.color;
 
-    ctx.stroke(10);
-   // ctx.fill();
-  }
+  //   ctx.stroke(10);
+  //  // ctx.fill();
+  // }
 
 
   MovingObject.prototype.isCollidedWith = function(otherObject) {

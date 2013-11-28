@@ -57,7 +57,7 @@ rotational steering
   }
 
   Game.prototype.move = function() {
-    this.ship.move();
+    this.ship.move(key.isPressed("up"), key.isPressed("left"), key.isPressed("right"));
     this.ship.warp(Game.DIM_X,Game.DIM_Y);
 
     for(var i = this.bullets.length-1; i >= 0; i--) {
@@ -90,23 +90,22 @@ rotational steering
   }
 
   Game.prototype.step = function() {
-    if (this.checkCollisions()){
-      alert("GAME END");
-      this.stop();
-    } else {
+    // if (this.checkCollisions()){
+    //   alert("GAME END");
+    //   this.stop();
+    // } else {
       this.move();
       this.removeAsteroids()
       this.draw();
-    }
+    //}
   }
 
 
   Game.prototype.bindKeyHandlers = function(keyValue, keyAction) {
     var that = this;
-    key('up', function(){that.ship.power([0,-1]); return false;});
-    key('down', function(){ that.ship.power([0,1]); return false;});
-    key('right', function(){ that.ship.power([1,0]); return false; });
-    key('left', function(){ that.ship.power([-1,0]); return false; });
+    key('up', function(){that.ship.power(); return false;});
+    key('right', function(){  });
+    key('left', function(){  });
     key('space', function(){ that.fireBullet(); return false; });
   }
 
