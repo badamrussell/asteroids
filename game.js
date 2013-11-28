@@ -16,7 +16,7 @@ rotational steering
     this.ship = new Asteroids.Ship([250,250]);
     this.timer;
     this.bullets = [];
-    this.background;
+    // this.background;
   }
 
   Game.DIM_X = 500;
@@ -42,7 +42,7 @@ rotational steering
 
     this.ctx.clearRect(0,0,Game.DIM_X, Game.DIM_Y);
 
-    ctx.drawImage(this.background, 0, 0);
+    // ctx.drawImage(this.background, 0, 0);
 
 
     this.ship.draw(this.ctx);
@@ -103,7 +103,7 @@ rotational steering
 
   Game.prototype.bindKeyHandlers = function(keyValue, keyAction) {
     var that = this;
-    key('up', function(){that.ship.power(); return false;});
+    key('up', function(){ });
     key('right', function(){  });
     key('left', function(){  });
     key('space', function(){ that.fireBullet(); return false; });
@@ -112,12 +112,12 @@ rotational steering
   Game.prototype.start = function() {
     this.bindKeyHandlers();
 
-    var img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-    };
-    img.src = 'starry_sky.png';
-    this.background = img;
+    // var img = new Image();
+    // img.onload = function () {
+    //   ctx.drawImage(img, 0, 0);
+    // };
+    // img.src = 'starry_sky.png';
+    // this.background = img;
 
 
     this.addAsteroids(10);

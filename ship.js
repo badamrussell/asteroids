@@ -13,7 +13,6 @@
     this.rotation = 0;
     this.lengths = [10,30,10];
     this.angles = [Math.PI * 0.75, 0 ,Math.PI * 1.25];
-
     Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS, Ship.COLOR)
 
   }
@@ -22,7 +21,7 @@
 
   Ship.RADIUS = 10;
   Ship.COLOR = "blue";
-  Ship.MAX_SPEED = 8;
+  Ship.MAX_SPEED = 6;
 
   Ship.prototype.power = function() {
     var new_x = Ship.MAX_SPEED * Math.cos(this.rotation);
@@ -34,11 +33,15 @@
     if( new_y <= Ship.MAX_SPEED && new_y >= -Ship.MAX_SPEED){
       this.vel[1] = new_y;
     }
+    console.log("POWER");
+  }
 
+  Ship.prototype.velocity = function() {
+    return Math.sqrt(Math.pow(this.vel[0],2) + Math.pow(this.vel[1],2));
   }
 
   Ship.prototype.rotateVelocity = function() {
-    var normVel = Math.sqrt(Math.pow(this.vel[0],2) + Math.pow(this.vel[1],2));
+    var normVel = this.velocity();
     this.vel[0] = normVel * Math.cos(this.rotation);
     this.vel[1] = normVel * Math.sin(this.rotation);
   } 
@@ -48,7 +51,9 @@
   }
 
   Ship.prototype.move = function(accelerate, left, right) {
-    if (accelerate == false) {
+    if (accelerate) {
+      this.power();
+    } else {
       if (Math.abs(this.vel[0]) > 0.5) {
         if (this.vel[0] > 0) {
           this.vel[0] -= 0.3;
@@ -93,6 +98,40 @@
     }
   }
 
+  Ship.prototype.drawThruster = function(ctx, shipPoints) {
+    var thrustHeight = this.velocity() * 4;
+    if (thrustHeight < 5) {
+
+      return;
+    }
+
+    thrustHeight += (Math.random() * 2);
+
+    ctx.beginPath();
+    ctx.lineTo(shipPoints[shipPoints.length-1][0], shipPoints[shipPoints.length-1][1]);
+    
+    
+    var x = thrustHeight * Math.cos(this.rotation + Math.PI) + this.pos[0];
+    var y = thrustHeight * Math.sin(this.rotation + Math.PI) + this.pos[1];
+
+    ctx.lineTo(x, y);
+    ctx.lineTo(shipPoints[0][0], shipPoints[0][1]);
+
+    
+    if (thrustHeight > 18) {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle="blue";
+    } else {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle="lightblue";
+    }
+    
+
+    ctx.stroke();
+    ctx.closePath();
+
+  }
+
   Ship.prototype.draw = function(ctx) {
     var newPoints = [];
 
@@ -112,13 +151,17 @@
     var c_y = newPoints[0][1] - (newPoints[0][1] - newPoints[newPoints.length-1][1])/2;
     //console.log(c_y, newPoints[0][1], newPoints[newPoints.length-1][1]);
     //ctx.arc(c_x, c_y, 10, Math.PI/2, 3*Math.PI/2, true);
-    //ctx.lineTo(newPoints[0][0], newPoints[0][1]);
+    ctx.lineTo(newPoints[0][0], newPoints[0][1]);
+
+    
 
     ctx.lineWidth = 2;
     ctx.strokeStyle="blue";
 
     ctx.stroke();
     ctx.closePath();
+
+    this.drawThruster(ctx, newPoints);
     // ctx.fill();
   }
 
