@@ -5,6 +5,7 @@ better ship easing
 asteroid collisions? (they produce smaller faster moving asteroids!)
 ufos
 hyperspace button
+better hit radius for asteroid
 
 */
 
