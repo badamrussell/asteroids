@@ -1,13 +1,6 @@
 (function(root) {
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-  Function.prototype.inherits = function(BaseClass) {
-    function Surrogate () {};
-    Surrogate.prototype = BaseClass.prototype;
-    this.prototype = new Surrogate();
-
-  }
-
   var Bullet = Asteroids.Bullet = function(pos, shipVel) {
     var speed = Math.sqrt(Math.pow(shipVel[0],2) + Math.pow(shipVel[1],2));
 

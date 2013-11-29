@@ -1,24 +1,18 @@
 (function(root) {
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
-  Function.prototype.inherits = function(BaseClass) {
-    function Surrogate () {};
-    Surrogate.prototype = BaseClass.prototype;
-    this.prototype = new Surrogate();
-
-  }
+  
 
   var randomRadius = function() {
     return (Math.random() * 15) + 10;
   }
 
-
-
   var Asteroid = Asteroids.Asteroid = function(pos, vel) {
+    this.shape = randomShape(pos);
     Asteroids.MovingObject.call(this, pos, vel, randomRadius(), Asteroid.COLOR)
   }
 
-  Asteroid.COLOR = "red";
+  Asteroid.COLOR = "yellow";
   Asteroid.RADIUS = 10;
 
   Asteroid.inherits(Asteroids.MovingObject)
@@ -61,25 +55,63 @@
     }
   }
 
+  var randomShape = function(basePoint) {
+    var numPoints = 8;//7 + Math.floor(Math.random()*4);
+    var radius = 10 + Math.floor(Math.random() * 40);
+    var angle = 0;
+    var randAdjust = 1 + randomRange(1,4);
+    var angleInc = (2*Math.PI) / numPoints;
+    var points = []
+    var x;
+    var y;
 
-  Asteroid.prototype.draw = function(ctx) {
-    //ctx.fillStyle = this.color;
+    for (var i = 0; i < numPoints; i++) {
+      x = Math.floor(radius * Math.cos(angle));
+      y = Math.floor(radius * Math.sin(angle));
+
+      points.push([x,y]);
+
+      if (points.length % 3 == 1 && randAdjust > 0) {
+        x = Math.floor(randomRange(8,radius) * Math.cos(angle + angleInc/2));
+        y = Math.floor(randomRange(8,radius) * Math.sin(angle + angleInc/2));
+
+        points.push([x,y]);
+        randAdjust -= 1;
+      }
+
+      console.log(x,y,angle,angleInc,radius);
+      angle += angleInc;
+    }
+
+    return points;
+  }
+
+  Asteroid.prototype.drawOnce = function(ctx, color, lineWidth) {
     ctx.beginPath();
+    ctx.moveTo(this.shape[0][0] + this.pos[0], this.shape[0][1] + this.pos[1]);
 
-    ctx.arc(
-      this.pos[0],
-      this.pos[1],
-      this.radius,
-      0,
-      Math.PI * 2,
-      false
-    );
+    for (var i=1; i < (this.shape.length); i++) {
+      var x = this.shape[i][0] + this.pos[0];
+      var y = this.shape[i][1] + this.pos[1];
+      ctx.lineTo(x,y);
+    }
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle=this.color;
+    ctx.lineTo(this.shape[0][0] + this.pos[0], this.shape[0][1] + this.pos[1]);
+
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle=color;
 
     ctx.stroke();
-   // ctx.fill();
+    ctx.closePath();
+  }
+
+  Asteroid.prototype.draw = function(ctx) {
+    this.drawOnce(ctx, "yellow", 1.5);
+    this.drawOnce(ctx, "white", 1);
+  }
+
+  var randomRange = function(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   // do we need check ahead of time that we have loaded MovingObject??

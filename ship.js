@@ -1,17 +1,10 @@
 (function(root) {
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
-  Function.prototype.inherits = function(BaseClass) {
-    function Surrogate () {};
-    Surrogate.prototype = BaseClass.prototype;
-    this.prototype = new Surrogate();
-
-  }
-
 
   var Ship = Asteroids.Ship = function(pos) {
     this.rotation = 0;
-    this.lengths = [10,30,10];
+    this.lengths = [5,18,5];
     this.angles = [Math.PI * 0.75, 0 ,Math.PI * 1.25];
     Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS, Ship.COLOR)
 
@@ -99,8 +92,8 @@
   }
 
   Ship.prototype.drawThruster = function(ctx, shipPoints) {
-    var thrustHeight = this.velocity() * 4;
-    if (thrustHeight < 5) {
+    var thrustHeight = this.velocity() * 2;
+    if (thrustHeight < 3) {
 
       return;
     }
@@ -118,17 +111,16 @@
     ctx.lineTo(shipPoints[0][0], shipPoints[0][1]);
 
     
-    if (thrustHeight > 18) {
-      ctx.lineWidth = 1;
-      ctx.strokeStyle="blue";
-    } else {
-      ctx.lineWidth = 1;
-      ctx.strokeStyle="lightblue";
-    }
+    ctx.lineWidth = 1;
+    ctx.strokeStyle="lightblue";
     
 
     ctx.stroke();
     ctx.closePath();
+
+  }
+
+  Ship.prototype.drawOnce = function(ctx, color, lineWidth) {
 
   }
 
@@ -149,20 +141,32 @@
     }
     var c_x = newPoints[0][0] - (newPoints[0][0] - newPoints[newPoints.length-1][0])/2;
     var c_y = newPoints[0][1] - (newPoints[0][1] - newPoints[newPoints.length-1][1])/2;
-    //console.log(c_y, newPoints[0][1], newPoints[newPoints.length-1][1]);
+    
     //ctx.arc(c_x, c_y, 10, Math.PI/2, 3*Math.PI/2, true);
     ctx.lineTo(newPoints[0][0], newPoints[0][1]);
 
     
 
     ctx.lineWidth = 2;
-    ctx.strokeStyle="blue";
+    ctx.strokeStyle="lightblue";
 
     ctx.stroke();
     ctx.closePath();
 
+    //--------------------------
+    ctx.beginPath();
+    ctx.moveTo(newPoints[0][0], newPoints[0][1]);
+    for (var i=1; i < newPoints.length; i++) {
+      ctx.lineTo(newPoints[i][0], newPoints[i][1]);
+    }
+    
+    ctx.lineTo(newPoints[0][0], newPoints[0][1]);
+    ctx.lineWidth = .5;
+    ctx.strokeStyle="white";
+    ctx.stroke();
+    ctx.closePath();
+
     this.drawThruster(ctx, newPoints);
-    // ctx.fill();
   }
 
   Ship.prototype.warp = function(dimX, dimY) {
@@ -198,6 +202,9 @@
     }
   }
 
+  var randomRange = function(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 
 
 })(this)
