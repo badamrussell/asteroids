@@ -4,12 +4,14 @@
   
 
   var randomRadius = function() {
-    return (Math.random() * 15) + 10;
+    return 10 + Math.floor(Math.random() * 40);
   }
 
   var Asteroid = Asteroids.Asteroid = function(pos, vel) {
-    this.shape = randomShape(pos);
-    Asteroids.MovingObject.call(this, pos, vel, randomRadius(), Asteroid.COLOR)
+    this.radius = randomRadius();
+    this.shape = randomShape(this.radius, pos);
+    
+    Asteroids.MovingObject.call(this, pos, vel, this.radius, Asteroid.COLOR);
   }
 
   Asteroid.COLOR = "yellow";
@@ -55,9 +57,8 @@
     }
   }
 
-  var randomShape = function(basePoint) {
+  var randomShape = function(radius, basePoint) {
     var numPoints = 8;//7 + Math.floor(Math.random()*4);
-    var radius = 10 + Math.floor(Math.random() * 40);
     var angle = 0;
     var randAdjust = 1 + randomRange(1,4);
     var angleInc = (2*Math.PI) / numPoints;
@@ -79,7 +80,7 @@
         randAdjust -= 1;
       }
 
-      console.log(x,y,angle,angleInc,radius);
+      //console.log(x,y,angle,angleInc,radius);
       angle += angleInc;
     }
 
@@ -113,26 +114,4 @@
   var randomRange = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
-
-  // do we need check ahead of time that we have loaded MovingObject??
-
-
-
-
-  // var Make = Asteroids.Make = function (canvasEl) {
-  //   var ctx = canvasEl.getContext("2d")
-  //
-  //   var ob = Asteroid.randomAsteroid(500, 500)
-  //   ob.move()
-  //   ob.draw(ctx);
-  //
-  //   window.setInterval(function () {
-  //         ob.move();
-  //         ctx.clearRect(0, 0, 500, 500);
-  //         ob.draw(ctx);
-  //       }, 100);
-  //
-  //  }
-
-
 })(this)

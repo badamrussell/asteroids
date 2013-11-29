@@ -3,12 +3,12 @@
 
   var Bullet = Asteroids.Bullet = function(pos, shipVel) {
     var speed = Math.sqrt(Math.pow(shipVel[0],2) + Math.pow(shipVel[1],2));
-
+    this.radius = 1;
     if (speed != 0) {
       var vel = [];
       vel[0] =  Bullet.VELOCITY * (shipVel[0] / speed);
       vel[1] =  Bullet.VELOCITY * (shipVel[1] / speed);
-      return Asteroids.MovingObject.call(this, [pos[0],pos[1]], vel, 2, "yellow");
+      return Asteroids.MovingObject.call(this, [pos[0],pos[1]], vel, 1, "yellow");
     }
   }
 
@@ -30,7 +30,7 @@
     );
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle=this.color;
+    ctx.strokeStyle="white";
 
     ctx.stroke();
    // ctx.fill();

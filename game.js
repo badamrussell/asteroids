@@ -5,7 +5,6 @@ better ship easing
 asteroid collisions? (they produce smaller faster moving asteroids!)
 ufos
 hyperspace button
-better hit radius for asteroid
 
 */
 
@@ -45,7 +44,7 @@ better hit radius for asteroid
     this.ctx.clearRect(0,0,Game.DIM_X, Game.DIM_Y);
     //this.ctx.color = "black";
     //this.ctx.fill();
-     ctx.drawImage(this.background, 0, 0);
+    ctx.drawImage(this.background, 0, 0);
 
 
     this.ship.draw(this.ctx);

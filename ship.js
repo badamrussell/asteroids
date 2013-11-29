@@ -5,6 +5,7 @@
   var Ship = Asteroids.Ship = function(pos) {
     this.rotation = 0;
     this.lengths = [5,18,5];
+    this.radius = 10;
     this.angles = [Math.PI * 0.75, 0 ,Math.PI * 1.25];
     Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS, Ship.COLOR)
 
@@ -26,7 +27,6 @@
     if( new_y <= Ship.MAX_SPEED && new_y >= -Ship.MAX_SPEED){
       this.vel[1] = new_y;
     }
-    console.log("POWER");
   }
 
   Ship.prototype.velocity = function() {

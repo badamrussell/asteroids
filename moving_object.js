@@ -5,7 +5,7 @@
   var MovingObject = Asteroids.MovingObject = function(pos, vel, radius, color) {
     this.pos = pos; // [x, y]
     this.vel = vel; // [x, y]
-    this.radius = radius;
+    //this.radius = radius;
     this.color = color;
   }
 
