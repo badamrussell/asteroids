@@ -12,10 +12,29 @@
     }
   }
 
-  Bullet.VELOCITY = 5;
+  Bullet.VELOCITY = 10;
 
   Bullet.inherits(Asteroids.MovingObject);
 
+  Bullet.prototype.draw = function(ctx) {
+    //ctx.fillStyle = this.color;
+    ctx.beginPath();
+
+    ctx.arc(
+      this.pos[0],
+      this.pos[1],
+      1,
+      0,
+      Math.PI * 2,
+      false
+    );
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle=this.color;
+
+    ctx.stroke();
+   // ctx.fill();
+  }
 
   Bullet.prototype.hitAsteroids = function(asteroids) {
     var collidedAsteroids = [];

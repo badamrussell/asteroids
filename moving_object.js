@@ -14,27 +14,6 @@
     this.pos[1] += this.vel[1];
   }
 
-  // MovingObject.prototype.draw = function(ctx) {
-  //   //ctx.fillStyle = this.color;
-  //   ctx.beginPath();
-
-  //   ctx.arc(
-  //     this.pos[0],
-  //     this.pos[1],
-  //     this.radius,
-  //     0,
-  //     Math.PI * 2,
-  //     false
-  //   );
-
-  //   ctx.lineWidth = 4;
-  //   ctx.strokeStyle=this.color;
-
-  //   ctx.stroke(10);
-  //  // ctx.fill();
-  // }
-
-
   MovingObject.prototype.isCollidedWith = function(otherObject) {
     var xDiff = (this.pos[0] - otherObject.pos[0]);
     var yDiff = (this.pos[1] - otherObject.pos[1]);
@@ -53,23 +32,8 @@
     return false;
   }
 
+  MovingObject.prototype.explode = function() {
 
-
- // var Make = Asteroids.Make = function (canvasEl) {
- //   var ctx = canvasEl.getContext("2d")
- //
- //   var ob = new MovingObject([50, 50], [2,2], 20, "red");
- //   ob.move()
- //   ob.draw(ctx);
- //
- //   window.setInterval(function () {
- //         ob.move();
- //         ctx.clearRect(0, 0, 500, 500);
- //         ob.draw(ctx);
- //       }, 100);
- //
- //  }
-
-
+  }
 
 })(this);

@@ -83,12 +83,9 @@
   }
 
   Ship.prototype.fire = function() {
-    var pos = this.pos;
-    var vel = this.vel
-
-    if (this.vel[0] != 0 || this.vel[1] != 0){
-      return new Asteroids.Bullet(pos, vel)
-    }
+    var vX = Math.cos(this.rotation) + this.vel[0];
+    var vY = Math.sin(this.rotation) + this.vel[1];
+    return new Asteroids.Bullet(this.pos, [vX, vY])
   }
 
   Ship.prototype.drawThruster = function(ctx, shipPoints) {

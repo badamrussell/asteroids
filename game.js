@@ -1,9 +1,10 @@
 /*
 add score
 asteroids explode or split into smaller asteroids on destruction
-ship has its own shape; individual draw method
-rotational steering
-
+better ship easing
+asteroid collisions? (they produce smaller faster moving asteroids!)
+ufos
+hyperspace button
 
 */
 
