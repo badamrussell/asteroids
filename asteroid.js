@@ -111,6 +111,17 @@
     this.drawOnce(ctx, "white", 1);
   }
 
+  Asteroid.prototype.explode = function() {
+    var debris = [];
+    var numDebris = 20;
+
+    for (var i=1; i < numDebris; i++) {
+      debris.push(new Asteroids.Debris(this.pos,this.vel));
+    }
+
+    return debris;
+  }
+
   var randomRange = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }

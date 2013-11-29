@@ -5,6 +5,8 @@ better ship easing
 asteroid collisions? (they produce smaller faster moving asteroids!)
 ufos
 hyperspace button
+limit rate of fire
+asteroids repopulate
 
 */
 
@@ -17,6 +19,7 @@ hyperspace button
     this.ship = new Asteroids.Ship([250,250]);
     this.timer;
     this.bullets = [];
+    this.debris = [];
     this.background;
   }
 
@@ -56,6 +59,10 @@ hyperspace button
     for(var i=0; i < this.asteroids.length; i++) {
       this.asteroids[i].draw(this.ctx);
     }
+
+    for(var i=0; i < this.debris.length; i++) {
+      this.debris[i].draw(this.ctx);
+    }
   }
 
   Game.prototype.move = function() {
@@ -77,14 +84,30 @@ hyperspace button
         this.asteroids[i].move();
       }
     }
+
+    console.log(this.debris.length);
+    for(var i=this.debris.length-1; i >= 0; i--) {
+      console.log(i,this.debris[i].expired());
+      if(this.debris[i].expired()){
+        this.debris.splice(i, 1);
+      } else {
+        this.debris[i].move();
+      }
+    }
   }
 
   Game.prototype.removeAsteroids = function() {
     for (var b=this.bullets.length-1; b >=0 ; b--) {
      var hitAsteroids = this.bullets[b].hitAsteroids(this.asteroids);
+
      if (hitAsteroids.length > 0) {
-       for (var a= hitAsteroids.length-1; a >=0 ; a--) {
-         this.asteroids.splice(hitAsteroids[a], 1);
+       for (var a = hitAsteroids.length-1; a >=0 ; a--) {
+          var newDebris = this.asteroids[hitAsteroids[a]].explode();
+          //this.debris.concat(newDebris);
+          for (var k=0; k < newDebris.length; k++) {
+            this.debris.push(newDebris[k]);
+          }
+          this.asteroids.splice(hitAsteroids[a], 1);
        }
        this.bullets.splice(b, 1);
      }
