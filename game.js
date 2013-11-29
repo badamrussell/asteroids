@@ -36,6 +36,8 @@ limit rate of fire
   Game.State = "play";
   Game.BaseVelocity = .5;
   Game.MaxVelocity = 10;
+  
+  
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
       this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y, Game.Velocity));

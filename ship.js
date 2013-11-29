@@ -17,7 +17,7 @@
 
   var Ship = Asteroids.Ship = function(pos) {
     this.rotation = 0;
-    this.lengths = [5,18,5];
+    this.lengths = [10,20,10];
     this.radius = 10;
     this.angles = [Math.PI * 0.75, 0 ,Math.PI * 1.25];
     Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS)
@@ -103,7 +103,7 @@
   }
 
   Ship.prototype.drawThruster = function(ctx, shipPoints) {
-    var thrustHeight = this.velocity() * 2;
+    var thrustHeight = this.velocity() * 3;
     if (thrustHeight < 3) {
 
       return;
