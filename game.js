@@ -85,9 +85,7 @@ asteroids repopulate
       }
     }
 
-    console.log(this.debris.length);
     for(var i=this.debris.length-1; i >= 0; i--) {
-      console.log(i,this.debris[i].expired());
       if(this.debris[i].expired()){
         this.debris.splice(i, 1);
       } else {

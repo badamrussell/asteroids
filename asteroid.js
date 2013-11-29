@@ -4,7 +4,7 @@
   
 
   var randomRadius = function() {
-    return 10 + Math.floor(Math.random() * 40);
+    return 5 + Math.floor(Math.random() * 40);
   }
 
   var Asteroid = Asteroids.Asteroid = function(pos, vel) {
@@ -44,23 +44,23 @@
     switch(rand) {
     case 1:
       var velocity = [Math.abs(randomVelocity(maxVelocity)), randomVelocity(maxVelocity)];
-      return [[0, Math.random() * dimY], velocity ];
+      return [[-40, Math.random() * dimY], velocity ];
     case 2:
       var velocity = [-Math.abs(randomVelocity(maxVelocity)), randomVelocity(maxVelocity), ];
-      return [[dimX, Math.random() * dimY], velocity ];
+      return [[dimX+40, Math.random() * dimY], velocity ];
     case 3:
       var velocity = [randomVelocity(maxVelocity), Math.abs(randomVelocity(maxVelocity))];
-      return [[Math.random() * dimX, 0], velocity ];
+      return [[Math.random() * dimX, -40], velocity ];
     case 4:
       var velocity = [randomVelocity(maxVelocity), -Math.abs(randomVelocity(maxVelocity))];
-      return [[Math.random() * dimX, dimY], velocity ];
+      return [[Math.random() * dimX, dimY+40], velocity ];
     }
   }
 
   var randomShape = function(radius, basePoint) {
-    var numPoints = 8;//7 + Math.floor(Math.random()*4);
+    var numPoints = 8;
     var angle = 0;
-    var randAdjust = 1 + randomRange(1,4);
+    var randAdjust = 1 + randomRange(0,3);
     var angleInc = (2*Math.PI) / numPoints;
     var points = []
     var x;

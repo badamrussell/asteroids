@@ -23,16 +23,23 @@
     ctx.arc(
       this.pos[0],
       this.pos[1],
-      1,
+      1.5,
       0,
       Math.PI * 2,
       false
     );
 
-    ctx.lineWidth = 1;
-    ctx.strokeStyle="white";
+    // ctx.lineWidth = 1;
+    // ctx.strokeStyle="white";
 
-    ctx.stroke();
+    // ctx.stroke();
+
+
+    ctx.fillStyle = "rgb(50,205,50)";
+    // ctx.fillStyle = "rgb(218,165,32)";
+    ctx.fill();
+
+
    // ctx.fill();
   }
 
