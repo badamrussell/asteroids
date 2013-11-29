@@ -35,7 +35,7 @@
     // ctx.stroke();
 
 
-    ctx.fillStyle = "rgb(50,205,50)";
+    ctx.fillStyle = "rgb(135,206,250)";
     // ctx.fillStyle = "rgb(218,165,32)";
     ctx.fill();
 

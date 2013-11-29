@@ -4,6 +4,8 @@ Do:
 ufos
 better asteroid velocities and start angle
 restart button
+draw background once (instead of on every frame)
+
 
 Maybe:
 better velocity easing
@@ -36,8 +38,8 @@ limit rate of fire
   Game.State = "play";
   Game.BaseVelocity = .5;
   Game.MaxVelocity = 10;
-  
-  
+
+
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
       this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y, Game.Velocity));
@@ -98,7 +100,6 @@ limit rate of fire
   }
 
   Game.prototype.move = function() {
-    console.log("SPEED: " + Game.Velocity);
     if (Game.State == "play") {
       this.ship.move(key.isPressed("up"), key.isPressed("left"), key.isPressed("right"));
       this.ship.warp(Game.DIM_X,Game.DIM_Y);
