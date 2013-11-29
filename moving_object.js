@@ -1,10 +1,12 @@
 (function(root) {
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-
+ 
   var MovingObject = Asteroids.MovingObject = function(pos, vel, radius, color) {
     this.pos = pos; // [x, y]
     this.vel = vel; // [x, y]
+    this.bounds = [-radius, 500+radius,500+radius,-radius];
+
     //this.radius = radius;
     this.color = color;
   }
@@ -26,7 +28,9 @@
   }
 
   MovingObject.prototype.isOffScreen = function(dimX, dimY){
-    if( this.pos[0] < 0 || this.pos[0] > dimX || this.pos[1] < 0 || this.pos[1] > dimY ){
+    var xOut = this.pos[0] < this.bounds[3] || this.pos[0] > this.bounds[1];
+    var yOut = this.pos[1] < this.bounds[0] || this.pos[1] > this.bounds[2]; 
+    if( xOut || yOut ){
       return true;
     }
     return false;
