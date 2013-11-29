@@ -4,7 +4,6 @@ Do:
 ufos
 better asteroid velocities and start angle
 restart button
-speed increases
 
 Maybe:
 better velocity easing
@@ -31,11 +30,12 @@ limit rate of fire
   Game.DIM_X = 500;
   Game.DIM_Y = 500;
   Game.FPS = 48;
-  Game.Velocity = 8;
-  Game.MaxAsteroids = 20;
+  Game.Velocity = .5;
+  Game.MaxAsteroids = 10;
   Game.Score = 0;
   Game.State = "play";
-
+  Game.BaseVelocity = .5;
+  Game.MaxVelocity = 10;
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
       this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y, Game.Velocity));
@@ -96,6 +96,7 @@ limit rate of fire
   }
 
   Game.prototype.move = function() {
+    console.log("SPEED: " + Game.Velocity);
     if (Game.State == "play") {
       this.ship.move(key.isPressed("up"), key.isPressed("left"), key.isPressed("right"));
       this.ship.warp(Game.DIM_X,Game.DIM_Y);
@@ -154,7 +155,13 @@ limit rate of fire
         if (this.asteroids.length < Game.MaxAsteroids) {
           this.addAsteroids(Game.MaxAsteroids - this.asteroids.length);
         }
-        console.log("# Asteroids:" + this.asteroids.length);
+
+        Game.Velocity = Game.Score / 500;
+        if ( Game.Velocity < Game.BaseVelocity ) {
+          Game.Velocity = Game.BaseVelocity;
+        } else if (Game.Velocity > Game.MaxVelocity) {
+          Game.Velocity = Game.MaxVelocity;
+        }
      }
     }
   }
