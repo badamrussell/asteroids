@@ -8,7 +8,7 @@
       var vel = [];
       vel[0] =  Bullet.VELOCITY * (shipVel[0] / speed);
       vel[1] =  Bullet.VELOCITY * (shipVel[1] / speed);
-      return Asteroids.MovingObject.call(this, [pos[0],pos[1]], vel, 1, "yellow");
+      return Asteroids.MovingObject.call(this, [pos[0],pos[1]], vel, 1);
     }
   }
 

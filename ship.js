@@ -7,7 +7,7 @@
     this.lengths = [5,18,5];
     this.radius = 10;
     this.angles = [Math.PI * 0.75, 0 ,Math.PI * 1.25];
-    Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS, Ship.COLOR)
+    Asteroids.MovingObject.call(this, pos, [0,0], Ship.RADIUS)
 
   }
 
@@ -177,6 +177,21 @@
     if (y <= 0 || y >= dimY) {
       this.pos[1] = dimY - y;
     }
+  }
+
+  Ship.prototype.jump = function() {
+
+  }
+
+  Ship.prototype.explode = function() {
+    var debris = [];
+    var numDebris = 3;
+
+    for (var i=1; i < numDebris; i++) {
+      debris.push(new Asteroids.Debris(this.pos,this.vel));
+    }
+
+    return debris;
   }
 
 

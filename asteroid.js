@@ -3,30 +3,44 @@
 
   
 
-  var randomRadius = function() {
-    return 5 + Math.floor(Math.random() * 40);
+  var randomRadius = function(size) { 
+    var radius;
+    if (size == 1) {
+      radius = randomRange(5,9);
+    } else if (size == 2) {
+      radius = randomRange(18,26);
+    } else {
+      radius = randomRange(40, 56);
+    }
+    // 5 - small
+    // 20 - medium
+    // 40 - large
+    return radius;//5 + Math.floor(Math.random() * 40);
   }
 
-  var Asteroid = Asteroids.Asteroid = function(pos, vel) {
-    this.radius = randomRadius();
+  var randomRange = function(min, max) {
+    var randIndex = Math.floor(Math.random() * (Math.abs(max - min)+1));
+    return min + randIndex;
+  }
+
+  var Asteroid = Asteroids.Asteroid = function(pos, vel, size) {
+    this.size = size || randomRange(1,3);
+    this.radius = randomRadius(this.size);
     this.shape = randomShape(this.radius, pos);
     
-    Asteroids.MovingObject.call(this, pos, vel, this.radius, Asteroid.COLOR);
+    Asteroids.MovingObject.call(this, pos, vel, this.radius);
   }
-
-  Asteroid.COLOR = "yellow";
-  Asteroid.RADIUS = 10;
 
   Asteroid.inherits(Asteroids.MovingObject)
 
 
-  Asteroid.randomAsteroid = function(dimX, dimY) {
+  Asteroid.randomAsteroid = function(dimX, dimY, velocity) {
 
-    var startVector = randomVector(dimX, dimY, 3);
+    var startVector = randomVector(dimX, dimY, randomRange(2,5) + velocity);
     var startPosition = startVector[0];
     var startVelocity = startVector[1];
 
-
+    //console.log("RANDOM Start: ",startPosition[0],startPosition[1], startVelocity[0],startVelocity[1]);
     return new Asteroid(
       startPosition,
       startVelocity
@@ -44,16 +58,16 @@
     switch(rand) {
     case 1:
       var velocity = [Math.abs(randomVelocity(maxVelocity)), randomVelocity(maxVelocity)];
-      return [[-40, Math.random() * dimY], velocity ];
+      return [[-50, Math.random() * dimY], velocity ];
     case 2:
       var velocity = [-Math.abs(randomVelocity(maxVelocity)), randomVelocity(maxVelocity), ];
-      return [[dimX+40, Math.random() * dimY], velocity ];
+      return [[dimX+50, Math.random() * dimY], velocity ];
     case 3:
       var velocity = [randomVelocity(maxVelocity), Math.abs(randomVelocity(maxVelocity))];
-      return [[Math.random() * dimX, -40], velocity ];
+      return [[Math.random() * dimX, -50], velocity ];
     case 4:
       var velocity = [randomVelocity(maxVelocity), -Math.abs(randomVelocity(maxVelocity))];
-      return [[Math.random() * dimX, dimY+40], velocity ];
+      return [[Math.random() * dimX, dimY+50], velocity ];
     }
   }
 
@@ -111,7 +125,23 @@
     this.drawOnce(ctx, "white", 1);
   }
 
-  Asteroid.prototype.explode = function() {
+  Asteroid.prototype.explode = function(minVelocity) {
+    var chunks = [];
+    var baseVelocity = minVelocity + 6;
+    var dir = 1;
+
+    if (this.size > 1) {
+      var vel = [-dir*randomVelocity(baseVelocity), dir*randomVelocity(baseVelocity)];
+      for (var i=0; i < this.size-1; i++) {
+        chunks.push(new Asteroid( [this.pos[0],this.pos[1]], vel, this.size-1 ));
+        vel = [vel[1],vel[0]];
+      }
+    }
+
+    return chunks;
+  }
+
+  Asteroid.prototype.makeDebris = function() {
     var debris = [];
     var numDebris = 20;
 
@@ -121,8 +151,5 @@
 
     return debris;
   }
-
-  var randomRange = function(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
+  
 })(this)

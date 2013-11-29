@@ -1,12 +1,18 @@
 /*
+
+Do:
 add score
-asteroids explode or split into smaller asteroids on destruction
-better ship easing
-asteroid collisions? (they produce smaller faster moving asteroids!)
 ufos
+better asteroid velocities and start angle
+restart button
+
+
+Maybe:
+better velocity easing
+
+Meh:
 hyperspace button
 limit rate of fire
-asteroids repopulate
 
 */
 
@@ -26,10 +32,12 @@ asteroids repopulate
   Game.DIM_X = 500;
   Game.DIM_Y = 500;
   Game.FPS = 48;
+  Game.Velocity = 0.2;
+  Game.MaxAsteroids = 10;
 
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
-      this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y));
+      this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y, Game.Velocity));
     }
   }
 
@@ -79,7 +87,7 @@ asteroids repopulate
 
     for(var i=0; i < this.asteroids.length; i++) {
       if( this.asteroids[i].isOffScreen(Game.DIM_X, Game.DIM_Y)){
-        this.asteroids[i] = Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y)
+        this.asteroids[i] = Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y, Game.Velocity)
       } else {
         this.asteroids[i].move();
       }
@@ -99,15 +107,26 @@ asteroids repopulate
      var hitAsteroids = this.bullets[b].hitAsteroids(this.asteroids);
 
      if (hitAsteroids.length > 0) {
-       for (var a = hitAsteroids.length-1; a >=0 ; a--) {
-          var newDebris = this.asteroids[hitAsteroids[a]].explode();
+        var newAsteroids = [];
+
+        for (var a = hitAsteroids.length-1; a >=0 ; a--) {
+          var asteroidIndex = hitAsteroids[a];
+
+          newAsteroids = newAsteroids.concat(this.asteroids[asteroidIndex].explode(Game.Velocity));
+          var newDebris = this.asteroids[asteroidIndex].makeDebris();
+
           //this.debris.concat(newDebris);
           for (var k=0; k < newDebris.length; k++) {
             this.debris.push(newDebris[k]);
           }
-          this.asteroids.splice(hitAsteroids[a], 1);
-       }
-       this.bullets.splice(b, 1);
+          this.asteroids.splice(asteroidIndex, 1);
+        }
+        this.bullets.splice(b, 1);
+        this.asteroids = this.asteroids.concat(newAsteroids);
+        if (this.asteroids.length < Game.MaxAsteroids) {
+          this.addAsteroids(Game.MaxAsteroids - this.asteroids.length);
+        }
+        console.log("# Asteroids:" + this.asteroids.length);
      }
     }
   }
@@ -130,6 +149,7 @@ asteroids repopulate
     key('right', function(){  });
     key('left', function(){  });
     key('space', function(){ that.fireBullet(); return false; });
+    //key('g', function(){ console.log("PRESSED G"); });
   }
 
   Game.prototype.start = function() {

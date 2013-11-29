@@ -5,7 +5,7 @@
   var Debris = Asteroids.Debris = function(pos, initialVelocity) {
     this.radius = 1;
     this.timeLeft = 2000;
-    Asteroids.MovingObject.call(this, randomPosition(pos), randomVelocity(initialVelocity), 1, "yellow");
+    Asteroids.MovingObject.call(this, randomPosition(pos), randomVelocity(initialVelocity), 1);
   }
 
   var randomPosition = function(startPos) {
