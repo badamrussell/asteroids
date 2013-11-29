@@ -1,11 +1,10 @@
 /*
 
 Do:
-add score
 ufos
 better asteroid velocities and start angle
 restart button
-
+speed increases
 
 Maybe:
 better velocity easing
@@ -32,9 +31,10 @@ limit rate of fire
   Game.DIM_X = 500;
   Game.DIM_Y = 500;
   Game.FPS = 48;
-  Game.Velocity = 0.2;
-  Game.MaxAsteroids = 10;
+  Game.Velocity = 8;
+  Game.MaxAsteroids = 20;
   Game.Score = 0;
+  Game.State = "play";
 
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
@@ -48,7 +48,6 @@ limit rate of fire
     if(bullet) {
       this.bullets.push(bullet);
     }
-
   }
 
   Game.prototype.updateScore = function(ctx) {
@@ -57,15 +56,25 @@ limit rate of fire
     ctx.fillText("SCORE: " + Game.Score, 7, 20)
   }
 
-  Game.prototype.draw = function() {
+  Game.prototype.displayGameOver = function(ctx) {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("GAME OVER", Game.DIM_X / 2 - 60, Game.DIM_Y / 2);
+  }
 
+  Game.prototype.displayPaused = function(ctx) {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("PAUSED", Game.DIM_X / 2, Game.DIM_Y / 2);
+  }
+
+  Game.prototype.draw = function() {
     this.ctx.clearRect(0,0,Game.DIM_X, Game.DIM_Y);
-    //this.ctx.color = "black";
-    //this.ctx.fill();
     ctx.drawImage(this.background, 0, 0);
 
-
-    this.ship.draw(this.ctx);
+    if (Game.State == "play") {
+      this.ship.draw(this.ctx);
+    }
 
     for(var i=0; i < this.bullets.length; i++) {
       this.bullets[i].draw(this.ctx);
@@ -80,12 +89,20 @@ limit rate of fire
     }
 
     this.updateScore(this.ctx);
+
+    if (Game.State == "over") {
+      this.displayGameOver(ctx);
+    }
   }
 
   Game.prototype.move = function() {
-    this.ship.move(key.isPressed("up"), key.isPressed("left"), key.isPressed("right"));
-    this.ship.warp(Game.DIM_X,Game.DIM_Y);
-
+    if (Game.State == "play") {
+      this.ship.move(key.isPressed("up"), key.isPressed("left"), key.isPressed("right"));
+      this.ship.warp(Game.DIM_X,Game.DIM_Y);
+    } else if (Game.State == "paused") {
+      return;
+    }
+    
     for(var i = this.bullets.length-1; i >= 0; i--) {
       if( this.bullets[i].isOffScreen(Game.DIM_X, Game.DIM_Y)){
         this.bullets.splice(i, 1);
@@ -143,14 +160,28 @@ limit rate of fire
   }
 
   Game.prototype.step = function() {
-    // if (this.checkCollisions()){
-    //   alert("GAME END");
-    //   this.stop();
-    // } else {
-      this.move();
-      this.removeAsteroids()
-      this.draw();
-    //}
+    if (Game.State == "play") {
+      var asteroidIndex = this.checkCollisions();
+
+      if (asteroidIndex != false){
+        var shipDebris = this.ship.explode();
+
+        var newAsteroids = this.asteroids[asteroidIndex].explode(Game.Velocity);
+        var newDebris = this.asteroids[asteroidIndex].makeDebris();
+        this.asteroids.splice(asteroidIndex, 1);
+        this.asteroids = this.asteroids.concat(newAsteroids);
+
+        
+        this.debris = this.debris.concat(newDebris);
+        this.debris = this.debris.concat(shipDebris);
+        Game.State = "over";
+      } else {
+        
+      }
+    }
+    this.move();
+    this.removeAsteroids()
+    this.draw();
   }
 
 
@@ -159,7 +190,7 @@ limit rate of fire
     key('up', function(){ });
     key('right', function(){  });
     key('left', function(){  });
-    key('space', function(){ that.fireBullet(); return false; });
+    key('space', function(){ if (Game.State == "play") {that.fireBullet();} });
     //key('g', function(){ console.log("PRESSED G"); });
   }
 
@@ -174,7 +205,7 @@ limit rate of fire
     this.background = img;
 
 
-    this.addAsteroids(10);
+    this.addAsteroids(Game.MaxAsteroids);
     var performStep = this.step.bind(this);
 
 
@@ -184,7 +215,7 @@ limit rate of fire
   Game.prototype.checkCollisions = function() {
     for(var i = 0; i < this.asteroids.length; i++){
       if (this.ship.isCollidedWith(this.asteroids[i])){
-        return true;
+        return i;
       }
     }
     return false;

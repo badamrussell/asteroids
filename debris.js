@@ -2,9 +2,13 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
 
-  var Debris = Asteroids.Debris = function(pos, initialVelocity) {
+  var Debris = Asteroids.Debris = function(pos, initialVelocity, points, length, color) {
+    this.points = points || 1;
+    this.length = length || 1;
     this.radius = 1;
     this.timeLeft = 2000;
+    this.color = color || "255,255,255";
+
     Asteroids.MovingObject.call(this, randomPosition(pos), randomVelocity(initialVelocity), 1);
   }
 
@@ -27,65 +31,28 @@
   Debris.inherits(Asteroids.MovingObject);
 
   Debris.prototype.draw = function(ctx) {
-    //ctx.fillStyle = this.color;
-
     ctx.beginPath();
 
     ctx.moveTo(this.pos[0], this.pos[1])
     ctx.lineTo(this.pos[0]+randomRange(-2,2), this.pos[1]+randomRange(-2,2));
     
-    var rgb = "238,221,130," + this.timeLeft / 1000;
-    // if (this.timeLeft < 1200) {
-    //   rgb += "," + this.timeLeft / 1000;
-    // }
-    //console.log(rgb);
     ctx.lineWidth = 1;
+    var rgb = this.color + "," + this.timeLeft / 1000;
+    //console.log(rgb,this.points, this.length)
     ctx.strokeStyle="rgba(" + rgb + ")";
+
+    if (this.points == 2) {
+      var nX = this.pos[0] + this.length * Math.cos(30);
+      var nY = this.pos[1] + this.length * Math.sin(30);
+      ctx.lineTo(nX, nY);
+      ctx.lineWidth = 2;
+    }
+
+    
     
 
     ctx.stroke();
     ctx.closePath();
-
-
-    
-
-
-
-
-
-
-    // ctx.beginPath();
-    
-    // ctx.arc(
-    //   this.pos[0],
-    //   this.pos[1],
-    //   1,
-    //   0,
-    //   Math.PI * 2,
-    //   false
-    // );
-
-    // ctx.lineWidth = 1;
-    // ctx.strokeStyle="yellow";
-
-    // ctx.stroke();
-
-    // ctx.beginPath();
-    
-    // ctx.arc(
-    //   this.pos[0],
-    //   this.pos[1],
-    //   .5,
-    //   0,
-    //   Math.PI * 2,
-    //   false
-    // );
-
-    // ctx.lineWidth = 1;
-    // ctx.strokeStyle="white";
-
-    // ctx.stroke();
-   // ctx.fill();
   }
 
   Debris.prototype.expired = function() {

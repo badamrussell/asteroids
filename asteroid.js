@@ -155,7 +155,7 @@
     var numDebris = 20;
 
     for (var i=1; i < numDebris; i++) {
-      debris.push(new Asteroids.Debris(this.pos,this.vel));
+      debris.push(new Asteroids.Debris(this.pos,this.vel,1,1,"238,221,130"));
     }
 
     return debris;

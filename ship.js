@@ -2,6 +2,19 @@
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
 
+  var randomRange = function(min, max) {
+    var randIndex = Math.floor(Math.random() * Math.abs(max - min));
+
+    return min + randIndex;
+  }
+
+  var randomVelocity = function(initialVelocity) {
+    return [  ((Math.random()* 2) - 1) * initialVelocity,
+              ((Math.random()* 2) - 1) * initialVelocity
+            ];
+  }
+
+
   var Ship = Asteroids.Ship = function(pos) {
     this.rotation = 0;
     this.lengths = [5,18,5];
@@ -185,11 +198,11 @@
 
   Ship.prototype.explode = function() {
     var debris = [];
-    var numDebris = 3;
+    
 
-    for (var i=1; i < numDebris; i++) {
-      debris.push(new Asteroids.Debris(this.pos,this.vel));
-    }
+    debris.push(new Asteroids.Debris(this.pos, [randomVelocity(1), randomVelocity(1)], 2, this.lengths[0], "173,216,230"));
+    debris.push(new Asteroids.Debris(this.pos, [randomVelocity(1), randomVelocity(1)], 2, this.lengths[1], "173,216,230"));
+    debris.push(new Asteroids.Debris(this.pos, [randomVelocity(1), randomVelocity(1)], 2, this.lengths[2], "173,216,230"));
 
     return debris;
   }
@@ -213,10 +226,6 @@
       var velocity = [randomVelocity(maxVelocity), -Math.abs(randomVelocity(maxVelocity))];
       return [[Math.random() * dimX, dimY], velocity ];
     }
-  }
-
-  var randomRange = function(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
   }
 
 
