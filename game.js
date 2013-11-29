@@ -34,6 +34,7 @@ limit rate of fire
   Game.FPS = 48;
   Game.Velocity = 0.2;
   Game.MaxAsteroids = 10;
+  Game.Score = 0;
 
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i=0; i < numAsteroids; i++) {
@@ -48,6 +49,12 @@ limit rate of fire
       this.bullets.push(bullet);
     }
 
+  }
+
+  Game.prototype.updateScore = function(ctx) {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("SCORE: " + Game.Score, 7, 20)
   }
 
   Game.prototype.draw = function() {
@@ -71,6 +78,8 @@ limit rate of fire
     for(var i=0; i < this.debris.length; i++) {
       this.debris[i].draw(this.ctx);
     }
+
+    this.updateScore(this.ctx);
   }
 
   Game.prototype.move = function() {
@@ -119,6 +128,8 @@ limit rate of fire
           for (var k=0; k < newDebris.length; k++) {
             this.debris.push(newDebris[k]);
           }
+
+          Game.Score += this.asteroids[asteroidIndex].points;
           this.asteroids.splice(asteroidIndex, 1);
         }
         this.bullets.splice(b, 1);

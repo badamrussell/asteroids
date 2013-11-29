@@ -18,6 +18,15 @@
     return radius;//5 + Math.floor(Math.random() * 40);
   }
 
+  var assignPoints = function(size) {
+    if (size == 1) {
+      return 100;
+    } else if (size == 2) {
+      return 50;
+    } else {
+      return 20;
+    }
+  }
   var randomRange = function(min, max) {
     var randIndex = Math.floor(Math.random() * (Math.abs(max - min)+1));
     return min + randIndex;
@@ -27,7 +36,7 @@
     this.size = size || randomRange(1,3);
     this.radius = randomRadius(this.size);
     this.shape = randomShape(this.radius, pos);
-    
+    this.points = assignPoints(this.size);
     Asteroids.MovingObject.call(this, pos, vel, this.radius);
   }
 
