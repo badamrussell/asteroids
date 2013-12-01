@@ -16,6 +16,7 @@ limit rate of fire
 
 */
 
+
 (function(root) {
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
@@ -33,7 +34,7 @@ limit rate of fire
   Game.DIM_Y = 500;
   Game.FPS = 48;
   Game.Velocity = .5;
-  Game.MaxAsteroids = 10;
+  Game.MaxAsteroids = 15;
   Game.Score = 0;
   Game.State = "play";
   Game.BaseVelocity = .5;
@@ -233,6 +234,22 @@ limit rate of fire
 
   Game.prototype.stop = function() {
     clearInterval(this.timer);
+  }
+
+  Game.prototype.restart = function() {
+    clearInterval(this.timer);
+
+    this.asteroids = [];
+    this.ship = new Asteroids.Ship([250,250]);
+    this.bullets = [];
+    this.debris = [];
+    this.background;
+    Game.Velocity = .5;
+    Game.MaxAsteroids = 15;
+    Game.Score = 0;
+    Game.State = "play";
+    
+    this.start();
   }
 
 

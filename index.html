@@ -13,21 +13,20 @@
     <script src="ship.js"></script>
     <script src="bullet.js"></script>
     <script src="debris.js"></script>
+
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
         var ctx = canvas.getContext("2d")
         var game = new Asteroids.Game(ctx)
         game.start()
-
-        var 
     </script>
 
     <style type="text/css">
       canvas { border: 3px solid rgb(135,206,250); }
     </style>
     
-    <form action="" method="">
-        <input type="submit" name="submit" value="restart">
-    </form>
+    <br>
+    <input type="button" name="submit" value="restart" onclick="game.restart()">
+
 </body>
 </html>
