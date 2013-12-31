@@ -8,8 +8,8 @@ The player controls a spaceship that can fire lasers at moving asteroids, while 
 <img align="right" src="asteroids_sample.png">
 
 ###Controls
-  up-arrow - move forward
-  left-arrow - rotate left
++ up-arrow - move forward
++ left-arrow - rotate left
 + right-arrow - rotate right
 + spacebar - fire laser
 
@@ -19,7 +19,7 @@ Notable Code
 + Asteroids removed when off screen 
 
 ##Exciting Features
-+ Retro graphics
+Retro graphics
 + Ship explodes upon impact
 + Asteroids explode upon destruction
 + Ship warps to opposite side when exiting side 
