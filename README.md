@@ -13,8 +13,8 @@ The player controls a spaceship that can fire lasers at moving asteroids, while 
 + right-arrow - rotate right
 + spacebar - fire laser
 
-##Notable Code
-+ Randomly generated asteroid shapes
+Notable Code
+ Randomly generated asteroid shapes
 + Ship Movement based on Velocity Vector
 + Asteroids removed when off screen 
 
