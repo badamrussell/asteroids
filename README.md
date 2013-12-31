@@ -14,8 +14,7 @@ Controls
 
 
 
-##Notable Code
-============
+##Notable Code============
 + Randomly generated asteroid shapes
 + Ship Movement based on Velocity Vector
 + Asteroids removed when off screen 
