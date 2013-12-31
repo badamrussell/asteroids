@@ -1,5 +1,6 @@
 Asteroids
 =========
+###HTML5, Javascript, OOP, Canvas
 
 The classic game of asteroids is brought back through the power of Javascript and the HTML5 canvas.
 
