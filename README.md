@@ -5,6 +5,9 @@ The classic game of asteroids is brought back through the power of Javascript an
 
 The player controls a spaceship that can fire lasers at moving asteroids, while also trying to avoid colliding into them.
 
+
+![My image](badamrussell.github.com/asteroids/asteroids_sample.png)
+
 ###Controls
 + up-arrow - move forward
 + left-arrow - rotate left
