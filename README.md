@@ -11,9 +11,6 @@ The player controls a spaceship that can fire lasers at moving asteroids, while 
 + right-arrow - rotate right
 + spacebar - fire laser
 
-
-
-
 ##Notable Code
 + Randomly generated asteroid shapes
 + Ship Movement based on Velocity Vector
@@ -21,7 +18,8 @@ The player controls a spaceship that can fire lasers at moving asteroids, while 
 
 ##Exciting Features
 + Retro graphics
-+ Explosions
++ Ship explodes upon impact
++ Asteroids explode upon destruction
 + Ship warps to opposite side when exiting side 
 + Rotational Steering
 + Ship propulsion effect
