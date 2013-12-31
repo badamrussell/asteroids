@@ -38,3 +38,4 @@ The player controls a spaceship that can fire lasers at moving asteroids, while 
 + More balanced speed incrementation
 + Buttons to allow user to change game settings
 + Hyperjump - move ship to random position
++ Sound
