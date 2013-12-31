@@ -18,7 +18,7 @@ Notable Code
 + Ship Movement based on Velocity Vector
 + Asteroids removed when off screen 
 
-##Exciting Features
+Exciting Features
 Retro graphics
 + Ship explodes upon impact
 + Asteroids explode upon destruction
