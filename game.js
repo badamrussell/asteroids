@@ -107,7 +107,7 @@ limit rate of fire
     } else if (Game.State == "paused") {
       return;
     }
-    
+
     for(var i = this.bullets.length-1; i >= 0; i--) {
       if( this.bullets[i].isOffScreen(Game.DIM_X, Game.DIM_Y)){
         this.bullets.splice(i, 1);
@@ -182,12 +182,12 @@ limit rate of fire
         this.asteroids.splice(asteroidIndex, 1);
         this.asteroids = this.asteroids.concat(newAsteroids);
 
-        
+
         this.debris = this.debris.concat(newDebris);
         this.debris = this.debris.concat(shipDebris);
         Game.State = "over";
       } else {
-        
+
       }
     }
     this.move();
@@ -212,7 +212,7 @@ limit rate of fire
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
     };
-    img.src = 'starry_sky.png';
+    img.src = 'img/background.png';
     this.background = img;
 
 
@@ -248,7 +248,7 @@ limit rate of fire
     Game.MaxAsteroids = 15;
     Game.Score = 0;
     Game.State = "play";
-    
+
     this.start();
   }
 
