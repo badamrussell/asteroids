@@ -1,18 +1,19 @@
 (function(root) {
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
-  var Game = Asteroids.Game = function(ctx) {
+  var Game = Asteroids.Game = function(ctx, width) {
     this.ctx = ctx;
     this.asteroids = [];
-    this.ship = new Asteroids.Ship([250,250]);
+    this.ship = new Asteroids.Ship([width/2,width/2]);
     this.timer;
     this.bullets = [];
     this.debris = [];
     this.background;
+
+    Game.DIM_X = width;
+    Game.DIM_Y = width;
   }
 
-  Game.DIM_X = 500;
-  Game.DIM_Y = 500;
   Game.FPS = 48;
   Game.Velocity = .5;
   Game.MaxAsteroids = 15;
@@ -205,10 +206,10 @@
     if (this.keysBound) { return false; }
     var that = this;
     var b_toggle = this.togglePause.bind(this);
-    key('up', function(){ });
-    key('right', function(){  });
-    key('left', function(){  });
-    key('space', function(){ if (Game.State == "play") {that.fireBullet();} });
+    key('up', function(){ return false; });
+    key('right', function(){ return false; });
+    key('left', function(){ return false; });
+    key('space', function(){ if (Game.State == "play") {that.fireBullet(); return false; } });
     key('p', b_toggle );
     this.keysBound = true;
     //key('g', function(){ console.log("PRESSED G"); });
@@ -251,7 +252,7 @@
     clearInterval(this.timer);
 
     this.asteroids = [];
-    this.ship = new Asteroids.Ship([250,250]);
+    this.ship = new Asteroids.Ship([Game.DIM_X/2,Game.DIM_Y/2]);
     this.bullets = [];
     this.debris = [];
     this.background;
