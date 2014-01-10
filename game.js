@@ -153,6 +153,7 @@
   }
 
   Game.prototype.step = function() {
+    console.log(Game.State)
     if (Game.State == "paused") {
       return false;
     }
@@ -180,11 +181,15 @@
     this.move();
     this.removeAsteroids()
     this.draw();
+
+    if (Game.State == "start") {
+      this.togglePause(ctx);
+    }
   }
 
   Game.prototype.togglePause = function() {
-    
-    if (Game.State == "play") {
+    console.log("TOGGLE",Game.State)
+    if (Game.State == "play" || Game.State == "start") {
       Game.State = "paused";
       window.clearInterval(this.timer);
       this.displayPaused(ctx);
@@ -192,11 +197,12 @@
     } else if (Game.State == "paused") {
       Game.State = "play";
       var performStep = this.step.bind(this);
-      this.timer = window.setInterval( performStep , Game.FPS )
+      this.timer = window.setInterval( performStep , Game.FPS );
     }
   }
 
   Game.prototype.bindKeyHandlers = function(keyValue, keyAction) {
+    if (this.keysBound) { return false; }
     var that = this;
     var b_toggle = this.togglePause.bind(this);
     key('up', function(){ });
@@ -204,6 +210,7 @@
     key('left', function(){  });
     key('space', function(){ if (Game.State == "play") {that.fireBullet();} });
     key('p', b_toggle );
+    this.keysBound = true;
     //key('g', function(){ console.log("PRESSED G"); });
   }
 
@@ -221,8 +228,9 @@
     this.addAsteroids(Game.MaxAsteroids);
     var performStep = this.step.bind(this);
 
-
-    this.timer = window.setInterval( performStep , Game.FPS )
+    console.log("START:",this.timer)
+    this.timer = window.setInterval( performStep , Game.FPS );
+    Game.State = "start";
   }
 
   Game.prototype.checkCollisions = function() {
@@ -239,6 +247,7 @@
   }
 
   Game.prototype.restart = function() {
+    console.log("reset",this,this.timer)
     clearInterval(this.timer);
 
     this.asteroids = [];
@@ -249,7 +258,6 @@
     Game.Velocity = .5;
     Game.MaxAsteroids = 15;
     Game.Score = 0;
-    Game.State = "play";
 
     this.start();
   }
