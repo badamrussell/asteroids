@@ -1,22 +1,3 @@
-/*
-
-Do:
-ufos
-better asteroid velocities and start angle
-restart button
-draw background once (instead of on every frame)
-
-
-Maybe:
-better velocity easing
-
-Meh:
-hyperspace button
-limit rate of fire
-
-*/
-
-
 (function(root) {
   var Asteroids = root.Asteroids = ( root.Asteroids || {} );
 
@@ -70,7 +51,8 @@ limit rate of fire
   Game.prototype.displayPaused = function(ctx) {
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
-    ctx.fillText("PAUSED", Game.DIM_X / 2, Game.DIM_Y / 2);
+    ctx.fillText("PAUSED", Game.DIM_X / 2 - 40, Game.DIM_Y / 2);
+    ctx.fillText("PRESS 'P' TO PLAY", Game.DIM_X / 2 - 92, Game.DIM_Y / 2 + 30);
   }
 
   Game.prototype.draw = function() {
@@ -171,6 +153,11 @@ limit rate of fire
   }
 
   Game.prototype.step = function() {
+    if (Game.State == "paused") {
+      return false;
+    }
+
+    // console.log(Game.State)
     if (Game.State == "play") {
       var asteroidIndex = this.checkCollisions();
 
@@ -195,13 +182,28 @@ limit rate of fire
     this.draw();
   }
 
+  Game.prototype.togglePause = function() {
+    
+    if (Game.State == "play") {
+      Game.State = "paused";
+      window.clearInterval(this.timer);
+      this.displayPaused(ctx);
+      this.timer = null;
+    } else if (Game.State == "paused") {
+      Game.State = "play";
+      var performStep = this.step.bind(this);
+      this.timer = window.setInterval( performStep , Game.FPS )
+    }
+  }
 
   Game.prototype.bindKeyHandlers = function(keyValue, keyAction) {
     var that = this;
+    var b_toggle = this.togglePause.bind(this);
     key('up', function(){ });
     key('right', function(){  });
     key('left', function(){  });
     key('space', function(){ if (Game.State == "play") {that.fireBullet();} });
+    key('p', b_toggle );
     //key('g', function(){ console.log("PRESSED G"); });
   }
 
@@ -220,7 +222,7 @@ limit rate of fire
     var performStep = this.step.bind(this);
 
 
-    this.timer = setInterval( performStep , Game.FPS )
+    this.timer = window.setInterval( performStep , Game.FPS )
   }
 
   Game.prototype.checkCollisions = function() {
